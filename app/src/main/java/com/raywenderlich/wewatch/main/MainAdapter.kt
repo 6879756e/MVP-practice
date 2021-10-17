@@ -47,57 +47,58 @@ import com.squareup.picasso.Picasso
 
 import java.util.*
 
-class MainAdapter(internal var movieList: List<Movie>, internal var context: Context) : RecyclerView.Adapter<MainAdapter.MoviesHolder>() {
-  // HashMap to keep track of which items were selected for deletion
-  val selectedMovies = HashSet<Movie>()
+class MainAdapter(
+  internal var movieList: List<Movie>,
+  internal var context: Context
+) : RecyclerView.Adapter<MainAdapter.MoviesHolder>() {
 
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesHolder {
-    val v = LayoutInflater.from(context).inflate(R.layout.item_movie_main, parent, false)
-    return MoviesHolder(v)
-  }
+    val selectedMovies = HashSet<Movie>()
 
-  override fun onBindViewHolder(holder: MoviesHolder, position: Int) {
-    movieList[position].run {
-      holder.checkBox.isChecked = isChecked
-      holder.titleTextView.text = title
-      holder.releaseDateTextView.text = releaseDate
-      if (posterPath.equals("")) {
-        holder.movieImageView.setImageDrawable(context.getDrawable(R.drawable.ic_local_movies_gray))
-      } else {
-        Picasso.get().load(RetrofitClient.TMDB_IMAGEURL + posterPath).into(holder.movieImageView)
-      }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesHolder {
+        val v = LayoutInflater.from(context).inflate(R.layout.item_movie_main, parent, false)
+        return MoviesHolder(v)
     }
-  }
 
-  override fun getItemCount(): Int {
-    return movieList.size
-  }
-
-  fun deleteSelectedMovies() {
-    selectedMovies.clear()
-  }
-
-  inner class MoviesHolder(v: View) : RecyclerView.ViewHolder(v) {
-
-    internal var titleTextView: TextView = v.findViewById(R.id.title_textview)
-    internal var releaseDateTextView: TextView = v.findViewById(R.id.release_date_textview)
-    internal var movieImageView: ImageView = v.findViewById(R.id.movie_imageview)
-    internal var checkBox: CheckBox = v.findViewById(R.id.checkbox)
-
-    init {
-      checkBox.setOnClickListener {
-        movieList[adapterPosition].run {
-          if (!selectedMovies.contains(this)) {
-            checkBox.isChecked = true
-            this.isChecked = true
-            selectedMovies.add(movieList[adapterPosition])
-          } else {
-            checkBox.isChecked = false
-            this.isChecked = false
-            selectedMovies.remove(movieList[adapterPosition])
-          }
+    override fun onBindViewHolder(holder: MoviesHolder, position: Int) {
+        movieList[position].run {
+            holder.checkBox.isChecked = isChecked
+            holder.titleTextView.text = title
+            holder.releaseDateTextView.text = releaseDate
+            if (posterPath.equals("")) {
+                holder.movieImageView.setImageDrawable(context.getDrawable(R.drawable.ic_local_movies_gray))
+            } else {
+                Picasso.get().load(RetrofitClient.TMDB_IMAGEURL + posterPath)
+                    .into(holder.movieImageView)
+            }
         }
-      }
     }
-  }
+
+    override fun getItemCount(): Int {
+        return movieList.size
+    }
+
+    inner class MoviesHolder(v: View) : RecyclerView.ViewHolder(v) {
+
+        internal var titleTextView: TextView = v.findViewById(R.id.title_textview)
+        internal var releaseDateTextView: TextView = v.findViewById(R.id.release_date_textview)
+        internal var movieImageView: ImageView = v.findViewById(R.id.movie_imageview)
+        internal var checkBox: CheckBox = v.findViewById(R.id.checkbox)
+
+        init {
+            checkBox.setOnClickListener {
+                movieList[adapterPosition].let { movie ->
+                    if (!selectedMovies.contains(movie)) {
+                        checkBox.isChecked = true
+                        movie.isChecked = true
+                        selectedMovies.add(movie)
+                    } else {
+                        checkBox.isChecked = false
+                        movie.isChecked = false
+                        selectedMovies.remove(movie)
+                    }
+                }
+            }
+        }
+    }
+
 }
