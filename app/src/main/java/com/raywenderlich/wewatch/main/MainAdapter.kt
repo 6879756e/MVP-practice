@@ -38,13 +38,14 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.raywenderlich.wewatch.R
 
+import com.raywenderlich.wewatch.R
 import com.raywenderlich.wewatch.model.Movie
 import com.raywenderlich.wewatch.network.RetrofitClient
+
 import com.squareup.picasso.Picasso
 
-import java.util.HashSet
+import java.util.*
 
 class MainAdapter(internal var movieList: List<Movie>, internal var context: Context) : RecyclerView.Adapter<MainAdapter.MoviesHolder>() {
   // HashMap to keep track of which items were selected for deletion
@@ -56,12 +57,15 @@ class MainAdapter(internal var movieList: List<Movie>, internal var context: Con
   }
 
   override fun onBindViewHolder(holder: MoviesHolder, position: Int) {
-    holder.titleTextView.text = movieList[position].title
-    holder.releaseDateTextView.text = movieList[position].releaseDate
-    if (movieList[position].posterPath.equals("")) {
-      holder.movieImageView.setImageDrawable(context.getDrawable(R.drawable.ic_local_movies_gray))
-    } else {
-      Picasso.get().load(RetrofitClient.TMDB_IMAGEURL + movieList[position].posterPath).into(holder.movieImageView)
+    movieList[position].run {
+      holder.checkBox.isChecked = isChecked
+      holder.titleTextView.text = title
+      holder.releaseDateTextView.text = releaseDate
+      if (posterPath.equals("")) {
+        holder.movieImageView.setImageDrawable(context.getDrawable(R.drawable.ic_local_movies_gray))
+      } else {
+        Picasso.get().load(RetrofitClient.TMDB_IMAGEURL + posterPath).into(holder.movieImageView)
+      }
     }
   }
 
@@ -78,16 +82,20 @@ class MainAdapter(internal var movieList: List<Movie>, internal var context: Con
     internal var titleTextView: TextView = v.findViewById(R.id.title_textview)
     internal var releaseDateTextView: TextView = v.findViewById(R.id.release_date_textview)
     internal var movieImageView: ImageView = v.findViewById(R.id.movie_imageview)
-    private var checkBox: CheckBox = v.findViewById(R.id.checkbox)
+    internal var checkBox: CheckBox = v.findViewById(R.id.checkbox)
 
     init {
       checkBox.setOnClickListener {
-        if (!selectedMovies.contains(movieList[adapterPosition])) {
-          checkBox.isChecked = true
-          selectedMovies.add(movieList[adapterPosition])
-        } else {
-          checkBox.isChecked = false
-          selectedMovies.remove(movieList[adapterPosition])
+        movieList[adapterPosition].run {
+          if (!selectedMovies.contains(this)) {
+            checkBox.isChecked = true
+            this.isChecked = true
+            selectedMovies.add(movieList[adapterPosition])
+          } else {
+            checkBox.isChecked = false
+            this.isChecked = false
+            selectedMovies.remove(movieList[adapterPosition])
+          }
         }
       }
     }

@@ -163,16 +163,18 @@ class MainActivity : AppCompatActivity() {
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     if (item.itemId == R.id.deleteMenuItem) {
+      val selectedMoviesCount = adapter.selectedMovies.size
+
       for (movie in adapter.selectedMovies) {
         dataSource.delete(movie)
-        adapter.deleteSelectedMovies()
       }
-      when {
-          adapter.selectedMovies.size == 1 -> displayMessage("Movie deleted.")
+      adapter.deleteSelectedMovies()
+      when (selectedMoviesCount) {
+        0 -> displayMessage("No movies have been selected for deletion!")
 
-          adapter.selectedMovies.size > 1 -> displayMessage("Movies deleted.")
+        1 -> displayMessage("Movie deleted.")
 
-          else -> displayMessage("No movies have been selected for deletion!")
+        else -> displayMessage("Movies deleted.")
       }
     }
 

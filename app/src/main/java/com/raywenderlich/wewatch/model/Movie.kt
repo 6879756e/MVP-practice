@@ -93,6 +93,10 @@ open class Movie {
   @Expose
   var releaseDate: String? = null
 
+  @ColumnInfo(name = "is_checked")
+  @Expose
+  var isChecked: Boolean = false
+
   /**
    * No args constructor for use in serialization
    *
