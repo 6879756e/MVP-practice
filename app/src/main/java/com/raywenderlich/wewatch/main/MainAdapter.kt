@@ -69,29 +69,27 @@ class MainAdapter(internal var movieList: List<Movie>, internal var context: Con
     return movieList.size
   }
 
+  fun deleteSelectedMovies() {
+    selectedMovies.clear()
+  }
+
   inner class MoviesHolder(v: View) : RecyclerView.ViewHolder(v) {
 
-    internal var titleTextView: TextView
-    internal var releaseDateTextView: TextView
-    internal var movieImageView: ImageView
-    internal var checkBox: CheckBox
+    internal var titleTextView: TextView = v.findViewById(R.id.title_textview)
+    internal var releaseDateTextView: TextView = v.findViewById(R.id.release_date_textview)
+    internal var movieImageView: ImageView = v.findViewById(R.id.movie_imageview)
+    private var checkBox: CheckBox = v.findViewById(R.id.checkbox)
 
     init {
-      titleTextView = v.findViewById(R.id.title_textview)
-      releaseDateTextView = v.findViewById(R.id.release_date_textview)
-      movieImageView = v.findViewById(R.id.movie_imageview)
-      checkBox = v.findViewById(R.id.checkbox)
       checkBox.setOnClickListener {
-        val adapterPosition = adapterPosition
         if (!selectedMovies.contains(movieList[adapterPosition])) {
           checkBox.isChecked = true
           selectedMovies.add(movieList[adapterPosition])
         } else {
           checkBox.isChecked = false
-          selectedMovies.add(movieList[adapterPosition])
+          selectedMovies.remove(movieList[adapterPosition])
         }
       }
     }
-
   }
 }

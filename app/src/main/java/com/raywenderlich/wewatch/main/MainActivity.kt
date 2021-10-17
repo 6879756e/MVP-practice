@@ -165,11 +165,14 @@ class MainActivity : AppCompatActivity() {
     if (item.itemId == R.id.deleteMenuItem) {
       for (movie in adapter.selectedMovies) {
         dataSource.delete(movie)
+        adapter.deleteSelectedMovies()
       }
-      if (adapter.selectedMovies.size == 1) {
-        displayMessage("Movie deleted.")
-      } else if (adapter.selectedMovies.size > 1) {
-        displayMessage("Movies deleted.")
+      when {
+          adapter.selectedMovies.size == 1 -> displayMessage("Movie deleted.")
+
+          adapter.selectedMovies.size > 1 -> displayMessage("Movies deleted.")
+
+          else -> displayMessage("No movies have been selected for deletion!")
       }
     }
 
