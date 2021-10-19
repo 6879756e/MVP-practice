@@ -36,7 +36,7 @@ class MainPresenter(
 
             override fun onError(@NonNull e: Throwable) {
                 Log.e(TAG, "Error fetching movie list", e)
-                viewInterface.displayError("Error fetching movie list")
+                viewInterface.displayErrorMessage("Error fetching movie list")
             }
 
             override fun onComplete() {
@@ -62,7 +62,7 @@ class MainPresenter(
     override fun onDeleteMoviesClicked(selectedMovies: Set<Movie>) {
         when (selectedMovies.size) {
             0 -> {
-                viewInterface.displayError("No movies have been selected for deletion!")
+                viewInterface.displayErrorMessage("No movies have been selected for deletion!")
                 return
             }
 

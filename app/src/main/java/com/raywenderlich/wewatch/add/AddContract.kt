@@ -7,10 +7,14 @@ interface AddContract {
 
     interface ViewInterface: BaseViewInterface {
         fun onMovieAdded()
+
+        fun onValidSearchRequest()
     }
 
     interface PresenterInterface {
         fun onAddMovieClicked(movie: Movie)
+
+        fun onSearchMovieClicked(toString: String)
     }
 
 }

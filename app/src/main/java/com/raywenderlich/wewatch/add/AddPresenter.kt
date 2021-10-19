@@ -17,4 +17,13 @@ class AddPresenter(
         }
     }
 
+    override fun onSearchMovieClicked(title: String) {
+        if (title.isBlank()) {
+            viewInterface.displayErrorMessage("Title cannot be empty!")
+            return
+        }
+
+        viewInterface.onValidSearchRequest()
+    }
+
 }

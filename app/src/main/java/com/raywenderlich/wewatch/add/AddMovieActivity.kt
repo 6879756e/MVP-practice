@@ -44,10 +44,10 @@ import com.raywenderlich.wewatch.model.LocalDataSource
 import com.raywenderlich.wewatch.model.Movie
 import com.raywenderlich.wewatch.network.RetrofitClient.TMDB_IMAGEURL
 import com.raywenderlich.wewatch.search.SearchActivity
-import com.raywenderlich.wewatch.util.tag
-import com.raywenderlich.wewatch.util.text
 import com.raywenderlich.wewatch.util.display
 import com.raywenderlich.wewatch.util.displayError
+import com.raywenderlich.wewatch.util.tag
+import com.raywenderlich.wewatch.util.text
 
 import com.squareup.picasso.Picasso
 
@@ -80,10 +80,13 @@ open class AddMovieActivity : AppCompatActivity(), AddContract.ViewInterface {
     }
 
     //search onClick
-    fun goToSearchMovieActivity(v: View) {
-        val title = titleEditText.text.toString()
+    fun onSearchMovieClicked(v: View) {
+        addPresenter.onSearchMovieClicked(titleEditText.text())
+    }
+
+    override fun onValidSearchRequest() {
         val intent = Intent(this@AddMovieActivity, SearchActivity::class.java)
-        intent.putExtra(SearchActivity.SEARCH_QUERY, title)
+        intent.putExtra(SearchActivity.SEARCH_QUERY, titleEditText.text())
         startActivityForResult(intent, SEARCH_MOVIE_ACTIVITY_REQUEST_CODE)
     }
 
