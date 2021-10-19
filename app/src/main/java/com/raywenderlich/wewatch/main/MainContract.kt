@@ -1,14 +1,11 @@
 package com.raywenderlich.wewatch.main
 
+import com.raywenderlich.wewatch.BaseViewInterface
 import com.raywenderlich.wewatch.model.Movie
 
 interface MainContract {
 
-    interface ViewInterface {
-        fun displayMessage(message: String)
-
-        fun displayError(errorMessage: String)
-
+    interface ViewInterface: BaseViewInterface {
         fun displayMovies(movieList: List<Movie>)
 
         fun displayNoMovies()

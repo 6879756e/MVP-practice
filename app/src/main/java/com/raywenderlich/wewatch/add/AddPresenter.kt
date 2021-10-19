@@ -10,7 +10,7 @@ class AddPresenter(
 
     override fun onAddMovieClicked(movie: Movie) {
         if (movie.title.isNullOrBlank()) {
-            viewInterface.displayError("Movie title cannot be empty.")
+            viewInterface.displayErrorMessage("Movie title cannot be empty.")
         } else {
             dataSource.insert(movie)
             viewInterface.onMovieAdded()

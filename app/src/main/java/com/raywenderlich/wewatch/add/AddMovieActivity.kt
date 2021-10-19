@@ -36,13 +36,19 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
+
 import androidx.appcompat.app.AppCompatActivity
+
 import com.raywenderlich.wewatch.R
 import com.raywenderlich.wewatch.model.LocalDataSource
 import com.raywenderlich.wewatch.model.Movie
 import com.raywenderlich.wewatch.network.RetrofitClient.TMDB_IMAGEURL
 import com.raywenderlich.wewatch.search.SearchActivity
+import com.raywenderlich.wewatch.util.tag
+import com.raywenderlich.wewatch.util.text
+import com.raywenderlich.wewatch.util.display
+import com.raywenderlich.wewatch.util.displayError
+
 import com.squareup.picasso.Picasso
 
 const val SEARCH_MOVIE_ACTIVITY_REQUEST_CODE = 2
@@ -111,19 +117,11 @@ open class AddMovieActivity : AppCompatActivity(), AddContract.ViewInterface {
     }
 
     override fun displayMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        display(message)
     }
 
-    override fun displayError(errorMessage: String) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+    override fun displayErrorMessage(errorMessage: String) {
+        displayError(errorMessage)
     }
 
-}
-
-fun EditText.text(): String {
-    return text.toString()
-}
-
-fun ImageView.tag(): String? {
-    return tag?.toString()
 }

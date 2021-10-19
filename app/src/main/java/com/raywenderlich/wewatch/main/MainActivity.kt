@@ -39,7 +39,6 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.LinearLayout
-import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,6 +50,9 @@ import com.raywenderlich.wewatch.R
 import com.raywenderlich.wewatch.add.AddMovieActivity
 import com.raywenderlich.wewatch.model.LocalDataSource
 import com.raywenderlich.wewatch.model.Movie
+import com.raywenderlich.wewatch.util.display
+import com.raywenderlich.wewatch.util.displayError
+
 
 const val ADD_MOVIE_ACTIVITY_REQUEST_CODE = 1
 
@@ -120,7 +122,7 @@ class MainActivity : AppCompatActivity(), MainContract.ViewInterface {
         if (requestCode == ADD_MOVIE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             displayMessage("Movie successfully added.")
         } else {
-            displayError("Movie could not be added.")
+            displayErrorMessage("Movie could not be added.")
         }
     }
 
@@ -138,11 +140,11 @@ class MainActivity : AppCompatActivity(), MainContract.ViewInterface {
     }
 
     override fun displayMessage(message: String) {
-        Toast.makeText(this@MainActivity, message, Toast.LENGTH_LONG).show()
+        display(message)
     }
 
-    override fun displayError(message: String) {
-        displayMessage(message)
+    override fun displayErrorMessage(errorMessage: String) {
+        displayError(errorMessage)
     }
 
 }
